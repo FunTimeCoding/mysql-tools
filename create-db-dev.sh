@@ -9,4 +9,4 @@ if [ ${#} -ne ${EXPECTED_ARGS} ]; then
     exit ${E_BAD_ARGS}
 fi
 
-./create-db.sh ${1} ${1} ${1}
+./create-db.sh "${1}" "${1}" "${1}"
