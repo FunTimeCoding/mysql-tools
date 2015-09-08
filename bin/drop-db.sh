@@ -30,4 +30,4 @@ case ${OPT} in
         ;;
 esac
 
-${MYSQL} -uroot -p -e "DROP DATABASE ${NAME}"
+${MYSQL} -uroot -p --protocol=tcp -e "DROP DATABASE ${NAME}"

@@ -19,4 +19,4 @@ if [ ! -f "${FILE}" ]; then
     exit ${E_FILE_NOT_FOUND}
 fi
 
-${MYSQL} -uroot -p "${1}" < "${FILE}"
+${MYSQL} -uroot -p --protocol=tcp "${1}" < "${FILE}"

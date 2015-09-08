@@ -11,7 +11,7 @@ if [ ${#} -ne ${EXPECTED_ARGS} ]; then
     exit ${E_BAD_ARGS}
 fi
 
-FILE="${1}-structure.sql"
+FILE="${1}-full.sql"
 
 if [ -f "${FILE}" ]; then
     echo "File exists: ${FILE}"
@@ -19,4 +19,4 @@ if [ -f "${FILE}" ]; then
     exit ${E_FILE_EXISTS}
 fi
 
-${MYSQLDUMP} -d -uroot -p --databases "${1}" > "${FILE}"
+${MYSQLDUMP} -uroot -p --protocol=tcp --databases "${1}" > "${FILE}"

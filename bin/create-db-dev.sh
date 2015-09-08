@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 EXPECTED_ARGS=1
 E_BAD_ARGS=1
