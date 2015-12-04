@@ -19,4 +19,4 @@ if [ -f "${FILE}" ]; then
     exit ${E_FILE_EXISTS}
 fi
 
-${MYSQLDUMP} -d -uroot -p --protocol=tcp --databases "${1}" > "${FILE}"
+${MYSQLDUMP} -uroot -p --protocol=tcp --no-data --databases "${1}" > "${FILE}"

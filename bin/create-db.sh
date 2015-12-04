@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-USER_HOST="%"
-#USER_HOST="localhost"
+#USER_HOST="%"
+USER_HOST="localhost"
 EXPECTED_ARGS=3
 E_BAD_ARGS=1
 MYSQL=$(which mysql)
