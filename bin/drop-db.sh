@@ -12,7 +12,7 @@ fi
 
 NAME="${1}"
 echo "Are you sure you want to drop ${NAME}? (y/n)"
-read OPT
+read -r OPT
 
 case ${OPT} in
     y)

@@ -11,7 +11,8 @@ if [ ${#} -ne ${EXPECTED_ARGS} ]; then
     exit ${E_BAD_ARGS}
 fi
 
-FILE="${1}.sql"
+DATABASE_NAME="${1}"
+FILE="${DATABASE_NAME}.sql"
 
 if [ ! -f "${FILE}" ]; then
     echo "File not found: ${FILE}"
@@ -19,4 +20,4 @@ if [ ! -f "${FILE}" ]; then
     exit ${E_FILE_NOT_FOUND}
 fi
 
-${MYSQL} -uroot -p --protocol=tcp "${1}" < "${FILE}"
+${MYSQL} -uroot -p --protocol=tcp "${DATABASE_NAME}" < "${FILE}"
