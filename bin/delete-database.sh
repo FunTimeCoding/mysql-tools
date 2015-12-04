@@ -5,13 +5,14 @@ usage()
     echo "Usage: ${0} [--with-user] DATABASE_NAME"
 }
 
-DATABASE_NAME="${1}"
 WITH_USER=false
 
 if [ "${1}" = "--with-user" ]; then
     WITH_USER=true
     shift
 fi
+
+DATABASE_NAME="${1}"
 
 if [ "${DATABASE_NAME}" = "" ]; then
     usage
