@@ -37,11 +37,11 @@ if [ -f "${CONFIG}" ]; then
 fi
 
 if [ "${ROOT_PASSWORD}" = "" ]; then
-    MYSQL="${MYSQL} -uroot -p --protocol=tcp"
+    MYSQL="mysql -uroot -p --protocol=tcp"
 else
     MYSQL_PWD="${ROOT_PASSWORD}"
     export MYSQL_PWD
-    MYSQL="${MYSQL} -uroot --protocol=tcp"
+    MYSQL="mysql -uroot --protocol=tcp"
 fi
 
 export MYSQL
