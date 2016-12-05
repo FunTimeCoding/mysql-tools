@@ -8,7 +8,7 @@ usage()
 STRUCTURE_ONLY=false
 MYSQLDUMP=$(which mysqldump)
 
-if [ "${1}" = "--structure-only" ]; then
+if [ "${1}" = --structure-only ]; then
     STRUCTURE_ONLY=true
     shift
 fi

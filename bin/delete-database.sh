@@ -7,7 +7,7 @@ usage()
 
 WITH_USER=false
 
-if [ "${1}" = "--with-user" ]; then
+if [ "${1}" = --with-user ]; then
     WITH_USER=true
     shift
 fi
