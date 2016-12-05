@@ -24,7 +24,6 @@ while true; do
     esac
 done
 
-MYSQL=$(which mysql)
 DATABASE_NAME="${1}"
 USERNAME="${2}"
 PASSWORD="${3}"
