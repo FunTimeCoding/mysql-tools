@@ -20,4 +20,4 @@ if [ ! -f "${FILE}" ]; then
     exit ${E_FILE_NOT_FOUND}
 fi
 
-${MYSQL} -uroot -p --protocol=tcp "${DATABASE_NAME}" < "${FILE}"
+${MYSQL} --user=root --password --protocol=tcp "${DATABASE_NAME}" < "${FILE}"

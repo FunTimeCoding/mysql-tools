@@ -34,7 +34,7 @@ if [ -f "${FILE}" ]; then
 fi
 
 if [ "${STRUCTURE_ONLY}" = true ]; then
-    ${MYSQLDUMP} -uroot -p --protocol=tcp --no-data --databases "${DATABASE_NAME}" > "${FILE}"
+    ${MYSQLDUMP} --user=root --password --protocol=tcp --no-data --databases "${DATABASE_NAME}" > "${FILE}"
 else
-    ${MYSQLDUMP} -uroot -p --protocol=tcp --databases "${DATABASE_NAME}" > "${FILE}"
+    ${MYSQLDUMP} --user=root --password --protocol=tcp --databases "${DATABASE_NAME}" > "${FILE}"
 fi

@@ -1,28 +1,21 @@
 #!/bin/sh -e
 
-CONFIG=~/.mysql-tools.conf
-
-function_exists()
-{
-    declare -f -F "${1}" > /dev/null
-
-    return $?
-}
+CONFIG=""
 
 while true; do
     case ${1} in
-        --config)
-            CONFIG=${2-}
-            shift 2
-            ;;
         --help)
             echo "Global usage: ${0} [--help][--config CONFIG]"
 
-            if function_exists usage; then
+            if command -v usage > /dev/null; then
                 usage
             fi
 
             exit 0
+            ;;
+        --config)
+            CONFIG=${2-}
+            shift 2
             ;;
         *)
             break
@@ -30,20 +23,27 @@ while true; do
     esac
 done
 
-CONFIG=$(realpath "${CONFIG}")
+OPTIND=1
 
-if [ -f "${CONFIG}" ]; then
-    . "${CONFIG}"
+if [ "${CONFIG}" = "" ]; then
+    CONFIG="${HOME}/.mysql-tools.sh"
 fi
 
+if [ ! -f "${CONFIG}" ]; then
+    echo "Config missing: ${CONFIG}"
+
+    exit 1
+fi
+
+# shellcheck source=/dev/null
+. "${CONFIG}"
+
 if [ "${ROOT_PASSWORD}" = "" ]; then
-    MYSQL="mysql -uroot -p --protocol=tcp"
+    MYSQL="mysql --user=root --password --protocol=tcp"
 else
     MYSQL_PWD="${ROOT_PASSWORD}"
     export MYSQL_PWD
-    MYSQL="mysql -uroot --protocol=tcp"
+    MYSQL="mysql --user=root --protocol=tcp"
 fi
 
 export MYSQL
-OPTIND=1
-export CONFIG

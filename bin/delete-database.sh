@@ -21,10 +21,11 @@ if [ "${DATABASE_NAME}" = "" ]; then
 fi
 
 MYSQL=$(which mysql)
-DATABASE_SQL="DROP DATABASE IF EXISTS ${DATABASE_NAME};"
+DATABASE_STATEMENT="DROP DATABASE IF EXISTS ${DATABASE_NAME};"
 
 if [ "${WITH_USER}" = true ]; then
-    USER_SQL="SET @users = NULL;
+    # shellcheck disable=SC1117
+    USER_STATEMENT="SET @users = NULL;
     SELECT GROUP_CONCAT('\'', user, '\'@\'', host, '\'') INTO @users FROM mysql.user WHERE user='${DATABASE_NAME}';
     SET @users = CONCAT('DROP USER ', @users);
     PREPARE delete_statement FROM @users;
@@ -32,9 +33,9 @@ if [ "${WITH_USER}" = true ]; then
     DEALLOCATE PREPARE delete_statement;
     DELETE FROM mysql.db WHERE Db LIKE '${DATABASE_NAME}';
     FLUSH PRIVILEGES;"
-    SQL="${USER_SQL}${DATABASE_SQL}"
+    STATEMENT="${USER_STATEMENT}${DATABASE_STATEMENT}"
 else
-    SQL="${DATABASE_SQL}"
+    STATEMENT="${DATABASE_STATEMENT}"
 fi
 
-${MYSQL} -uroot -p --protocol=tcp -e "${SQL}"
+${MYSQL} --user=root --password --protocol=tcp --execute "${STATEMENT}"
