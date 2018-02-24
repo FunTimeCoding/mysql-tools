@@ -1,14 +1,8 @@
 # MysqlTools
 
-## Usage
+## Setup
 
-This section explains how to use this project.
-
-Run the main entry point program.
-
-```sh
-bin/mt
-```
+Write a configuration file.
 
 ```sh
 touch ~/.mysql-tools.conf
@@ -17,24 +11,29 @@ echo "ROOT_PASSWORD=root" > ~/.mysql-tools.conf
 ```
 
 
+## Usage
+
+This section explains how to use this project.
+
+Run the main program.
+
+```sh
+bin/mt
+```
+
+
 ## Development
 
 This section explains how to use scripts that are intended to ease the development of this project.
 
-Install development tools.
+Run style check.
 
 ```sh
-sudo apt-get install shellcheck
-```
-
-Run style check and show all concerns.
-
-```sh
-./run-style-check.sh
+script/check.sh
 ```
 
 Build the project like Jenkins.
 
 ```sh
-./build.sh
+script/build.sh
 ```
