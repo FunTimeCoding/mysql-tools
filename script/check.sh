@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}" || exit 1; pwd)
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/skeleton/skeleton.sh"
+
 if [ "${1}" = --help ]; then
     echo "Usage: ${0} [--ci-mode]"
 
@@ -18,15 +23,13 @@ fi
 SYSTEM=$(uname)
 
 if [ "${SYSTEM}" = Darwin ]; then
-    FIND="gfind"
+    FIND='gfind'
 else
-    FIND="find"
+    FIND='find'
 fi
 
-FILTER='^.*/(build|tmp|\.git|\.vagrant|\.idea)/.*$'
-
 if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
-    FILES=$(${FIND} . -name '*.sh' -regextype posix-extended ! -regex "${FILTER}" -printf '%P\n')
+    FILES=$(${FIND} . -regextype posix-extended -name '*.sh' ! -regex "${EXCLUDE_FILTER}" -printf '%P\n')
 
     for FILE in ${FILES}; do
         FILE_REPLACED=$(echo "${FILE}" | sed 's/\//-/g')
@@ -34,9 +37,9 @@ if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
     done
 else
     # shellcheck disable=SC2016
-    SHELL_SCRIPT_CONCERNS=$(${FIND} . -name '*.sh' -regextype posix-extended ! -regex "${FILTER}" -exec sh -c 'shellcheck ${1} || true' '_' '{}' \;)
+    SHELL_SCRIPT_CONCERNS=$(${FIND} . -name '*.sh' -regextype posix-extended ! -regex "${EXCLUDE_FILTER}" -exec sh -c 'shellcheck ${1} || true' '_' '{}' \;)
 
-    if [ ! "${SHELL_SCRIPT_CONCERNS}" = "" ]; then
+    if [ ! "${SHELL_SCRIPT_CONCERNS}" = '' ]; then
         CONCERN_FOUND=true
         echo "(WARNING) Shell script concerns:"
         echo "${SHELL_SCRIPT_CONCERNS}"
@@ -44,9 +47,9 @@ else
 fi
 
 # shellcheck disable=SC2016
-EMPTY_FILES=$(${FIND} . -empty -regextype posix-extended ! -regex "${FILTER}")
+EMPTY_FILES=$(${FIND} . -regextype posix-extended -type f -empty ! -regex "${EXCLUDE_FILTER}")
 
-if [ ! "${EMPTY_FILES}" = "" ]; then
+if [ ! "${EMPTY_FILES}" = '' ]; then
     CONCERN_FOUND=true
 
     if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
@@ -60,9 +63,9 @@ if [ ! "${EMPTY_FILES}" = "" ]; then
 fi
 
 # shellcheck disable=SC2016
-TO_DOS=$(${FIND} . -regextype posix-extended -type f -and ! -regex "${FILTER}" -exec sh -c 'grep -Hrn TODO "${1}" | grep -v "${2}"' '_' '{}' '${0}' \;)
+TO_DOS=$(${FIND} . -regextype posix-extended -type f ! -regex "${EXCLUDE_FILTER}" -exec sh -c 'grep -Hrn TODO "${1}" | grep -v "${2}"' '_' '{}' '${0}' \;)
 
-if [ ! "${TO_DOS}" = "" ]; then
+if [ ! "${TO_DOS}" = '' ]; then
     if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
         echo "${TO_DOS}" > build/log/to-dos.txt
     else
@@ -74,9 +77,9 @@ if [ ! "${TO_DOS}" = "" ]; then
 fi
 
 # shellcheck disable=SC2016
-SHELLCHECK_IGNORES=$(${FIND} . -regextype posix-extended -type f -and ! -regex "${FILTER}" -exec sh -c 'grep -Hrn "# shellcheck" "${1}" | grep -v "${2}"' '_' '{}' '${0}' \;)
+SHELLCHECK_IGNORES=$(${FIND} . -regextype posix-extended -type f ! -regex "${EXCLUDE_FILTER}" -exec sh -c 'grep -Hrn "# shellcheck" "${1}" | grep -v "${2}"' '_' '{}' '${0}' \;)
 
-if [ ! "${SHELLCHECK_IGNORES}" = "" ]; then
+if [ ! "${SHELLCHECK_IGNORES}" = '' ]; then
     if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
         echo "${SHELLCHECK_IGNORES}" > build/log/shellcheck-ignores.txt
     else
