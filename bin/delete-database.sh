@@ -1,10 +1,15 @@
 #!/bin/sh -e
 
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}" || exit 1; pwd)
+
 usage()
 {
     echo "Usage: ${0} [--with-user] DATABASE_NAME"
 }
 
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../lib/mysql_tools.sh"
 WITH_USER=false
 
 if [ "${1}" = --with-user ]; then
@@ -20,7 +25,6 @@ if [ "${DATABASE_NAME}" = "" ]; then
     exit 1
 fi
 
-MYSQL=$(which mysql)
 DATABASE_STATEMENT="DROP DATABASE IF EXISTS ${DATABASE_NAME};"
 
 if [ "${WITH_USER}" = true ]; then
@@ -38,4 +42,4 @@ else
     STATEMENT="${DATABASE_STATEMENT}"
 fi
 
-${MYSQL} --user=root --password --protocol=tcp --execute "${STATEMENT}"
+${MYSQL} --execute "${STATEMENT}"

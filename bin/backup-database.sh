@@ -6,7 +6,6 @@ usage()
 }
 
 STRUCTURE_ONLY=false
-MYSQLDUMP=$(which mysqldump)
 
 if [ "${1}" = --structure-only ]; then
     STRUCTURE_ONLY=true
@@ -34,7 +33,7 @@ if [ -f "${FILE}" ]; then
 fi
 
 if [ "${STRUCTURE_ONLY}" = true ]; then
-    ${MYSQLDUMP} --user=root --password --protocol=tcp --no-data --databases "${DATABASE_NAME}" > "${FILE}"
+    mysqldump --user=root --password --protocol=tcp --no-data --databases "${DATABASE_NAME}" > "${FILE}"
 else
-    ${MYSQLDUMP} --user=root --password --protocol=tcp --databases "${DATABASE_NAME}" > "${FILE}"
+    mysqldump --user=root --password --protocol=tcp --databases "${DATABASE_NAME}" > "${FILE}"
 fi
