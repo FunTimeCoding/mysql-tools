@@ -10,7 +10,7 @@ usage()
 
 # shellcheck source=/dev/null
 . "${SCRIPT_DIRECTORY}/../lib/mysql_tools.sh"
-USER_HOST=%
+USER_HOST='%'
 
 while true; do
     case ${1} in
