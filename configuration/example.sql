@@ -21,3 +21,6 @@ CREATE TABLE guest (
     registration_date TIMESTAMP
 );
 INSERT INTO guest (firstname, lastname, email, registration_date) VALUES ('Example2', 'User', 'example@example.org', NOW());
+
+GRANT ALL PRIVILEGES ON `example2`.* TO 'example'@'%';
+FLUSH PRIVILEGES;
