@@ -42,9 +42,10 @@ if [ "${ROOT_PASSWORD}" = '' ]; then
     MYSQL="mysql --user=root --password --protocol=tcp"
     #MYSQL="mysql --user=root --password --protocol=socket --socket /var/run/mysqld/mysqld.sock"
 else
-    MYSQL_PWD="${ROOT_PASSWORD}"
-    export MYSQL_PWD
-    MYSQL="mysql --user=root --protocol=tcp"
+    #MYSQL_PWD="${ROOT_PASSWORD}"
+    #export MYSQL_PWD
+    #MYSQL="mysql --user=root --protocol=tcp"
+    MYSQL="mysql --user=root --password=${ROOT_PASSWORD} --protocol=tcp"
 fi
 
 export MYSQL

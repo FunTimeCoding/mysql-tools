@@ -5,28 +5,28 @@ SCRIPT_DIRECTORY=$(cd "${DIRECTORY}" || exit 1; pwd)
 
 usage()
 {
-    echo "Usage: ${0} [--with-user] DATABASE_NAME"
+    echo "Usage: ${0} NAME [FILE]"
 }
 
 # shellcheck source=/dev/null
 . "${SCRIPT_DIRECTORY}/../lib/mysql_tools.sh"
-EXPECTED_ARGS=1
-E_BAD_ARGS=1
-E_FILE_NOT_FOUND=2
+DATABASE="${1}"
+FILE="${2}"
 
-if [ ${#} -ne ${EXPECTED_ARGS} ]; then
-    echo "Usage: ${0} DATABASE_NAME"
+if [ "${DATABASE}" = "" ]; then
+    usage
 
-    exit ${E_BAD_ARGS}
+    exit 1
 fi
 
-DATABASE_NAME="${1}"
-FILE="${DATABASE_NAME}.sql"
+if [ "${FILE}" = "" ]; then
+    FILE="${DATABASE}.sql"
+fi
 
 if [ ! -f "${FILE}" ]; then
     echo "File not found: ${FILE}"
 
-    exit ${E_FILE_NOT_FOUND}
+    exit 1
 fi
 
-${MYSQL} "${DATABASE_NAME}" < "${FILE}"
+${MYSQL} "${DATABASE}" < "${FILE}"

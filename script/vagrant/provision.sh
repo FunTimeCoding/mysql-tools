@@ -26,4 +26,10 @@ elif [ "${CODENAME}" = stretch ]; then
     cp /vagrant/configuration/mysql-tools.sh /home/vagrant/.mysql-tools.sh
     chmod 700 /home/vagrant/.mysql-tools.sh
     chown vagrant:vagrant /home/vagrant/.mysql-tools.sh
+
+    # Remove unix_socket plugin to allow root login via localhost.
+    mysql --user=root --execute "UPDATE mysql.user SET plugin = '' WHERE User = 'root';
+FLUSH PRIVILEGES;"
+
+    su --login vagrant /vagrant/script/vagrant/vagrant.sh
 fi
