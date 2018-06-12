@@ -21,4 +21,9 @@ elif [ "${CODENAME}" = stretch ]; then
     # TODO: How to install MySQL and not MariaDB? This still installs mariadb-server.
     #apt-get --quiet 2 install mysql-server
     apt-get --quiet 2 install mariadb-server
+
+    mysqladmin --user root password 'root'
+    cp /vagrant/configuration/mysql-tools.sh /home/vagrant/.mysql-tools.sh
+    chmod 700 /home/vagrant/.mysql-tools.sh
+    chown vagrant:vagrant /home/vagrant/.mysql-tools.sh
 fi
