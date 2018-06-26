@@ -24,7 +24,5 @@ chown vagrant:vagrant /home/vagrant/.mysql-tools.sh
 mysql --user=root --execute "UPDATE mysql.user SET plugin = '' WHERE User = 'root';
 FLUSH PRIVILEGES;"
 
-su --login vagrant /vagrant/script/vagrant/vagrant.sh
-
 cp /vagrant/configuration/60-development.cnf /etc/mysql/mariadb.conf.d
 systemctl restart mariadb
