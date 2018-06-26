@@ -1,8 +1,6 @@
 #!/bin/sh -e
 
 export DEBIAN_FRONTEND=noninteractive
-CODENAME=$(lsb_release --codename --short)
-
 apt-get --quiet 2 install neovim multitail htop tree git shellcheck
 
 # dirmngr is required to import the key
