@@ -1,4 +1,6 @@
-shellcheck
 OPTIND
 mkdir
-dirmngr
+tmp
+uname
+sudo
+uniq

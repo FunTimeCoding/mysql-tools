@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 export DEBIAN_FRONTEND='noninteractive'
-apt-get --quiet 2 install neovim multitail htop tree git shellcheck
+apt-get --quiet 2 install neovim multitail htop tree git shellcheck hunspell devscripts ruby-ronn
 
 # dirmngr is required to import the key
 apt-get --quiet 2 install dirmngr
